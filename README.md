@@ -1,12 +1,12 @@
 Please see below assignment.
 
 Create Cart Service having below APIs using Spring Reactive(Spring Webflux)
-     1) Create Cart
-     2) Get Cart by cart id
-     3) Update Cart (Optional)
-        3.1) Add Line Item
-        3.2) Remove Line Item
-        3.3) Increase/decrease LineItem Quantity
+1) Create Cart
+2) Get Cart by cart id
+3) Update Cart (Optional)
+     3.1) Add Line Item
+     3.2) Remove Line Item
+     3.3) Increase/decrease LineItem Quantity
 
 
 Recommendations- 
