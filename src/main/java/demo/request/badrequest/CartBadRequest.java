@@ -36,25 +36,27 @@ public class CartBadRequest {
 				.map(product -> product.getMasterData().getStaged().getMasterVariant().getSku())
 				.collect(Collectors.toList());
 
-		List<String> variantsSkus = products.stream().map(product -> product.getMasterData().getStaged().getVariants()
-						.stream().map(ProductVariant::getSku)
-						.collect(Collectors.toList()))
-				.collect(Collectors.toList())
-				.stream().flatMap(Collection::stream)
+		List<String> variantsSkus = products.stream()
+				.flatMap(product -> product.getMasterData()
+						.getStaged()
+						.getVariants()
+						.stream()
+						.map(ProductVariant::getSku))
 				.collect(Collectors.toList());
 
 		masterVariantSkus.addAll(variantsSkus);
 
-		List<String> skusRequest = cartRequest.getData().getAttributes().getLineItems().stream()
+		List<String> skusRequest = cartRequest.getData().getAttributes().getLineItems()
+				.stream()
 				.map(LineItemRequest::getSku)
 				.collect(Collectors.toList());
 
 		return skusRequest.stream().map(skuRequest ->
-						!masterVariantSkus.contains(skuRequest) ?
-								"No product variant with an sku '" + skuRequest + "' exist." :
-								!productSkusWithTaxCategoryNotNull.contains(skuRequest) ?
-										"Product with sku: '" + skuRequest + "' does not have a tax category" :
-										"")
-				.collect(Collectors.joining());
+						!masterVariantSkus.contains(skuRequest)
+								? "No product variant with an sku '" + skuRequest + "' exist."
+								: !productSkusWithTaxCategoryNotNull.contains(skuRequest)
+								? "Product with sku: '" + skuRequest + "' does not have a tax category."
+								: "")
+				.collect(Collectors.joining(" "));
 	}
 }
