@@ -1,8 +1,9 @@
-package demo.request;
+package demo.request.badrequest;
 
 import com.commercetools.api.client.ProjectApiRoot;
 import com.commercetools.api.models.product.Product;
 import com.commercetools.api.models.product.ProductVariant;
+import demo.request.ProductRequest;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;

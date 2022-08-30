@@ -7,7 +7,6 @@ import demo.request.CartRequest;
 import demo.request.LineItemRequest;
 import demo.response.CartResponse;
 import lombok.extern.slf4j.Slf4j;
-import lombok.var;
 import org.springframework.stereotype.Component;
 
 import java.util.List;

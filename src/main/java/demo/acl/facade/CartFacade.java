@@ -6,13 +6,14 @@ import com.commercetools.api.models.cart.CartPagedQueryResponse;
 import demo.request.CartRequest;
 import io.vrap.rmf.base.client.ApiHttpResponse;
 
+import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
 public interface CartFacade {
 
-	CompletableFuture<ApiHttpResponse<Cart>> fetchCartByIdFacade(String cartId);
+	Cart fetchCartByIdFacade(String cartId);
 
-	CompletableFuture<ApiHttpResponse<CartPagedQueryResponse>> fetchCartsFacade();
+	List<Cart> fetchCartsFacade();
 
 	CompletableFuture<ApiHttpResponse<Cart>> saveCartFacade(CartDraft cartDraft);
 

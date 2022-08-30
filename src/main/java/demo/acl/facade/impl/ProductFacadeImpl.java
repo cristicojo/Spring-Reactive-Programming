@@ -7,7 +7,6 @@ import demo.acl.facade.ProductFacade;
 import io.vrap.rmf.base.client.ApiHttpResponse;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import lombok.var;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 import org.springframework.web.server.ResponseStatusException;

@@ -3,25 +3,25 @@ package demo.controller;
 import demo.request.ProductRequest;
 import demo.response.ProductResponse;
 import demo.service.impl.ProductServiceImpl;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import javax.validation.Valid;
 
 
 @RestController
-@RequestMapping(value = "/lululemon", consumes = "application/vnd.api+json", produces = "application/vnd.api+json")
+@RequestMapping(value = "/cristi_project_key", consumes = "application/vnd.api+json", produces = "application/vnd.api+json")
+@AllArgsConstructor
 public class ProductController {
 
-	@Autowired
-	private ProductServiceImpl productService;
+	private final ProductServiceImpl productService;
 
 
 
 	@GetMapping("/products")
-	public Flux<ProductResponse> getProducts() {
+	public Mono<ResponseEntity<ProductResponse>> getProducts() {
 		return productService.fetchProducts();
 	}
 

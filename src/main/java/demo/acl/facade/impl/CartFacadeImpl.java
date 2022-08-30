@@ -7,14 +7,16 @@ import demo.constant.CartConstant;
 import demo.request.CartRequest;
 import demo.acl.facade.CartFacade;
 import io.vrap.rmf.base.client.ApiHttpResponse;
+import io.vrap.rmf.base.client.error.NotFoundException;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import lombok.var;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.List;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.CompletionException;
 
 
 /**
@@ -33,26 +35,39 @@ public class CartFacadeImpl implements CartFacade {
 	 * Method used to get a cart by id using get method from commercetools sdk v2
 	 *
 	 * @param cartId the given id of the cart
-	 * @return object of type {@link CompletableFuture<ApiHttpResponse<Cart>>} from commercetools sdk v2
+	 * @return object of type {@link Cart} from commercetools sdk v2
 	 */
 	@Override
-	public CompletableFuture<ApiHttpResponse<Cart>> fetchCartByIdFacade(String cartId) {
+	public Cart fetchCartByIdFacade(String cartId) {
 
-		var cart = projectApiRoot.carts().withId(cartId).get().execute();
+		Cart cart = new CartImpl();
+		try {
+			cart = sendCartId(cartId).join();
+		} catch (CompletionException e) {
+			if (e.getCause() instanceof NotFoundException) {
+				log.error(CartConstant.CART_ID + cartId + CartConstant.CART_NOT_FOUND);
+				throw new ResponseStatusException(HttpStatus.NOT_FOUND,
+						CartConstant.CART_ID + cartId + CartConstant.CART_NOT_FOUND);
+			}
+		}
 		log.info("Called commercetools sdk v2 get method for retrieve a cart by id");
 		return cart;
+	}
+
+	private CompletableFuture<Cart> sendCartId(String cartId) {
+		return projectApiRoot.carts().withId(cartId).get().execute().thenApplyAsync(ApiHttpResponse::getBody);
 	}
 
 
 	/**
 	 * Method used for fetching all the carts using get method from commercetools sdk v2
 	 *
-	 * @return object of type {@link CompletableFuture<ApiHttpResponse<CartPagedQueryResponse>>} from commercetools sdk v2
+	 * @return list of objects of type {@link Cart} from commercetools sdk v2
 	 */
 	@Override
-	public CompletableFuture<ApiHttpResponse<CartPagedQueryResponse>> fetchCartsFacade() {
+	public List<Cart> fetchCartsFacade() {
 
-		var carts = projectApiRoot.carts().get().execute();
+		var carts = projectApiRoot.carts().get().execute().thenApplyAsync(result -> result.getBody().getResults()).join();
 		log.info("Called commercetools sdk v2 get method for retrieve all carts");
 		return carts;
 	}

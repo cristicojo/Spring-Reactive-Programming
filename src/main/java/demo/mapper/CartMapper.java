@@ -17,7 +17,10 @@ public interface CartMapper {
 
 
 	default CartResponse cartListToCartResponse(List<Cart> cartList, String locale, String channel) {
-		return cartList.isEmpty() ? null : CartResponse.builder().data(cartListToCartDataResponseList(cartList, locale, channel)).build();
+		return cartList.isEmpty() ? CartResponse.builder().build()
+				: CartResponse.builder()
+				.data(cartListToCartDataResponseList(cartList, locale, channel))
+				.build();
 	}
 
 

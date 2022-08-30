@@ -2,12 +2,13 @@ package demo.acl.adapter;
 
 import demo.request.ProductRequest;
 import demo.response.ProductResponse;
+import org.springframework.http.ResponseEntity;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 public interface ProductAdapter {
 
-	Flux<ProductResponse> fetchProductsAdapter();
+	Mono<ResponseEntity<ProductResponse>> fetchProductsAdapter();
 
 	Mono<ProductResponse> fetchProductByIdAdapter(String productId);
 

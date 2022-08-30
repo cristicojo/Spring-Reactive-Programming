@@ -2,12 +2,12 @@ package demo.service;
 
 import demo.request.ProductRequest;
 import demo.response.ProductResponse;
-import reactor.core.publisher.Flux;
+import org.springframework.http.ResponseEntity;
 import reactor.core.publisher.Mono;
 
 public interface ProductService {
 
-	Flux<ProductResponse> fetchProducts();
+	Mono<ResponseEntity<ProductResponse>> fetchProducts();
 
 	Mono<ProductResponse> fetchProductById(String productId);
 

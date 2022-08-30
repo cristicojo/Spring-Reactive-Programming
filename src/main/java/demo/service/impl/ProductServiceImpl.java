@@ -4,16 +4,18 @@ import demo.acl.adapter.ProductAdapter;
 import demo.request.ProductRequest;
 import demo.response.ProductResponse;
 import demo.service.ProductService;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 @Service
+@AllArgsConstructor
 public class ProductServiceImpl implements ProductService {
 
-	@Autowired
-	private ProductAdapter productAdapter;
+	private final ProductAdapter productAdapter;
 
 
 	/**
@@ -22,7 +24,7 @@ public class ProductServiceImpl implements ProductService {
 	 * @return {@link Flux< ProductResponse >} object found
 	 */
 	@Override
-	public Flux<ProductResponse> fetchProducts() {
+	public Mono<ResponseEntity<ProductResponse>> fetchProducts() {
 		return productAdapter.fetchProductsAdapter();
 	}
 

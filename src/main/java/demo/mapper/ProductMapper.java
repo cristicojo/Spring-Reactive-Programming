@@ -16,7 +16,8 @@ public interface ProductMapper {
 	ProductMapper INSTANCE = Mappers.getMapper(ProductMapper.class);
 
 	default ProductResponse productToProductResponse(List<Product> productList) {
-		return productList.isEmpty() ? null : ProductResponse.builder().data(productListToProductDataResponseList(productList)).build();
+		return productList.isEmpty() ? ProductResponse.builder().build()
+				: ProductResponse.builder().data(productListToProductDataResponseList(productList)).build();
 	}
 
 

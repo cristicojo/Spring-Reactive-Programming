@@ -3,20 +3,26 @@ package demo.controller;
 import demo.request.CartRequest;
 import demo.response.CartResponse;
 import demo.service.CartService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
-import reactor.core.publisher.Flux;
+import lombok.AllArgsConstructor;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 import reactor.core.publisher.Mono;
 
 import javax.validation.Valid;
 
 
 @RestController
-@RequestMapping(value = "/lululemon", consumes = "application/vnd.api+json", produces = "application/vnd.api+json")
+@RequestMapping(value = "/cristi_project_key", consumes = "application/vnd.api+json", produces = "application/vnd.api+json")
+@AllArgsConstructor
 public class CartController {
 
-	@Autowired
-	private CartService cartService;
+	private final CartService cartService;
 
 
 
@@ -28,7 +34,7 @@ public class CartController {
 
 
 	@GetMapping("/carts")
-	public Flux<CartResponse> getCarts(@RequestParam String locale, @RequestParam String channel) {
+	public Mono<ResponseEntity<CartResponse>> getCarts(@RequestParam String locale, @RequestParam String channel) {
 		return cartService.fetchCarts(locale, channel);
 	}
 

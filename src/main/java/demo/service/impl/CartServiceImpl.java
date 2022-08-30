@@ -4,17 +4,19 @@ import demo.acl.adapter.CartAdapter;
 import demo.request.CartRequest;
 import demo.response.CartResponse;
 import demo.service.CartService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 
 @Service
+@AllArgsConstructor
 public class CartServiceImpl implements CartService {
 
-	@Autowired
-	private CartAdapter cartAdapter;
+
+	private final CartAdapter cartAdapter;
 
 
 	/**
@@ -39,7 +41,7 @@ public class CartServiceImpl implements CartService {
 	 * @return the {@link Flux<CartResponse>} object containing all the carts found
 	 */
 	@Override
-	public Flux<CartResponse> fetchCarts(String locale, String channel) {
+	public Mono<ResponseEntity<CartResponse>> fetchCarts(String locale, String channel) {
 		return cartAdapter.fetchCartsAdapter(locale, channel);
 	}
 
